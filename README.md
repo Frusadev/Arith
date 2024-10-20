@@ -21,6 +21,7 @@ set -ga fish_user_paths $HOME/.nimble/bin
 - ### For Windows users:
 
 It's simpler here! Download and extract nim to a folder then add it to PATH using the environment variables utility.
+
 More instructions here: [Install nim on windows](https://nim-lang.org/install_windows.html)
 
 ## Compiling.
