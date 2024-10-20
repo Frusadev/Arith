@@ -20,7 +20,7 @@ set -ga fish_user_paths /home/frusadev/.nimble/bin
 
 - ### For Windows users:
 
-Its more simple. Download and extract nim then add to PATH with the environment variables utility.
+It's simpler here! Download and extract nim to a folder then add it to PATH using the environment variables utility.
 
 ## Compiling.
 
