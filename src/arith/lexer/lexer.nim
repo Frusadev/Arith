@@ -22,7 +22,7 @@ type
       END
 
       # Identifiers and values
-      ID
+      IDENTIFER
       NUMBER
 
       # Miscellaneous
@@ -125,8 +125,8 @@ proc guessOperator(lexer: Lexer): Token =
 
 proc identifyKeyword(lexer: Lexer): Token =
    let definedKeywords: Table[string, Token] = {
-      "BEGIN": initToken("BEGIN", BEGIN),
-      "END": initToken("END", END),
+      "begin": initToken("begin", BEGIN),
+      "end": initToken("end", END),
    }.toTable()
 
    var value: string
@@ -137,19 +137,28 @@ proc identifyKeyword(lexer: Lexer): Token =
    if definedKeywords.hasKey(value):
       return definedKeywords[value]
    else:
-      let token = initToken(value, ID)
+      let token = initToken(value, IDENTIFER)
       return token
 
 
 proc getNextToken*(lexer: Lexer): Token =
    lexer.skipSpace()
    if lexer.position < lexer.input.len and lexer.currentChar != '\0':
+      let symbols: Table[char, Token] = {
+         ';': initToken(";", SMCOL),
+         '.': initToken(".", DOT)
+      }.toTable()
+
       if lexer.currentChar.isDigit() or ((lexer.currentChar == '.') and lexer.peek().isDigit()):
          lexer.currentToken = lexer.number()
       elif lexer.currentChar.isAlphaAscii():
          lexer.currentToken = lexer.identifyKeyword()
+      elif symbols.hasKey(lexer.currentChar):
+         lexer.currentToken = symbols[lexer.currentChar]
+         lexer.advance()
       else: 
          lexer.currentToken = lexer.guessOperator()
    else:
       lexer.currentToken = initToken("\0", EOF)
+
    return lexer.currentToken
