@@ -39,7 +39,8 @@ nimble build -d:release
 ## TO-DO
 
 - [x] Implement basic arithmetic
-- [ ] Variable and block declarations
+- [X] Variable and block declarations
+- [ ] Custom types (objects)
 - [ ] Conditions
 - [ ] Loops
 - [ ] Function declarations and call
