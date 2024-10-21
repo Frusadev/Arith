@@ -12,15 +12,17 @@ curl https://nim-lang.org/choosenim/init.sh -sSf | sh # And follow the instrunct
 # After installation, add nim and it's utilities to your PATH environment variable:
 # For bash users
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="/home/frusadev/.nimble/bin:$PATH"
+export PATH="$HOME/.nimble/bin:$PATH"
 # For fish users
 set --export PATH "$HOME/.local/bin/" $PATH
-set -ga fish_user_paths /home/frusadev/.nimble/bin
+set -ga fish_user_paths $HOME/.nimble/bin
 ```
 
 - ### For Windows users:
 
-Its more simple. Download and extract nim then add to PATH with the environment variables utility.
+It's simpler here! Download and extract nim to a folder then add it to PATH using the environment variables utility.
+
+More instructions here: [Install nim on windows](https://nim-lang.org/install_windows.html)
 
 ## Compiling.
 
