@@ -1,0 +1,33 @@
+import sample_prog.sample2
+program sample
+
+begin
+
+  testFunction: int = fn(x: int, y: char)
+    d := 1
+  end
+
+  object TestObj {
+    pub prop1: int
+    priv prop2: char = 'h'
+    // i forgot
+    constructor(self, params...) {
+      self.param...
+    }
+    pub you: string = fn()
+      return "hi"
+    end
+    // in objects, all functions must also have the "self" param so update the grammar to support it
+  }
+  testFunction(1, '2')
+  var v1: int
+  var v2: string = "ioppp"
+  var a: array<int> = [1, 2, 3]
+  for i in a {
+    ...
+  }
+
+  while true {
+    ...
+  }
+end.

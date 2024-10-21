@@ -1,0 +1,115 @@
+program: 
+  PROGRAM IDENTIFIER compound_statement DOT
+
+import_statement_list: 
+  import_statement NEW_LINE import_statement_list 
+  | empty
+
+import_statement: 
+  IMPORT IDENTIFIER DOT IDENTIFIER
+
+compound_statement: 
+  BEGIN statement_list END
+
+statement_list: 
+  statement 
+  | statement SEMI statement_list
+
+statement: 
+  compound_statement 
+  | assignment_statement 
+  | function_declaration_statement 
+  | function_call_statement 
+  | obj_statement 
+  | var_declaration_statement 
+  | for_loop_statement 
+  | while_loop_statement 
+  | empty
+
+assignment_statement: 
+  variable ASSIGN expr
+
+function_declaration_statement: 
+  IDENTIFIER COLON IDENTIFIER FN LPAREN param_list RPAREN NEW_LINE statement_list END
+
+function_call_statement: 
+  IDENTIFIER LPAREN argument_list RPAREN
+
+obj_statement: 
+  OBJECT IDENTIFIER LBRACE NEW_LINE obj_body RBRACE 
+  | OBJECT IDENTIFIER OF IDENTIFIER LBRACE NEW_LINE obj_body RBRACE
+
+obj_body: 
+  constructor_statement NEW_LINE prop_stmt_list method_stmt_list
+
+constructor_statement: 
+  CONSTRUCTOR LPAREN self_param COMMA param_list RPAREN NEW_LINE statement_list END
+
+self_param: 
+  SELF
+
+prop_stmt_list: 
+  prop_stmt NEW_LINE prop_stmt_list 
+  | empty
+
+prop_stmt: 
+  PUB IDENTIFIER COLON IDENTIFIER 
+  | PRIV IDENTIFIER COLON IDENTIFIER EQUAL expr 
+  | empty
+
+method_stmt_list: 
+  method_stmt NEW_LINE method_stmt_list 
+  | empty
+
+method_stmt: 
+  PUB function_declaration_with_self 
+  | PRIV function_declaration_with_self
+
+function_declaration_with_self: 
+  IDENTIFIER COLON IDENTIFIER FN LPAREN self_param COMMA param_list RPAREN NEW_LINE statement_list END
+
+param_list: 
+  IDENTIFIER COLON IDENTIFIER COMMA param_list 
+  | IDENTIFIER COLON IDENTIFIER 
+  | empty
+
+argument_list: 
+  expr COMMA argument_list 
+  | expr 
+  | empty
+
+var_declaration_statement: 
+  VAR IDENTIFIER COLON IDENTIFIER EQUAL expr 
+  | VAR IDENTIFIER COLON IDENTIFIER
+
+array_declaration_statement: 
+  VAR IDENTIFIER COLON ARRAY LT IDENTIFIER GT EQUAL LBRACKET expr_list RBRACKET
+
+expr_list: 
+  expr COMMA expr_list 
+  | expr 
+  | empty
+
+for_loop_statement: 
+  FOR IDENTIFIER IN IDENTIFIER NEW_LINE statement_list END
+
+while_loop_statement: 
+  WHILE expr NEW_LINE statement_list END
+
+expr: 
+  term ((PLUS | MINUS) term)*
+
+term: 
+  factor ((MUL | DIV) factor)*
+
+factor: 
+  PLUS factor 
+  | MINUS factor 
+  | INTEGER 
+  | LPAREN expr RPAREN 
+  | variable
+
+variable: 
+  ID
+
+empty: 
