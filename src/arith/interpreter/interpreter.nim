@@ -8,9 +8,6 @@ type
       currentScope: Scope
 
 
-
-
-
 proc interpret*(interpreter: Interpreter, node: ASTNode): float =
    if node != nil:
       case node.nodeType
@@ -18,6 +15,8 @@ proc interpret*(interpreter: Interpreter, node: ASTNode): float =
          # create scope
          let scope = initScope()
          scope.parent = interpreter.currentScope
+         interpreter.currentScope = scope
+
       of ASSIGNSTMT:
          discard
       of VOIDSTMT:

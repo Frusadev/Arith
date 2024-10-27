@@ -14,19 +14,39 @@ type
       LPAREN
       RPAREN
 
+      #Braces
+      LBRACE
+      RBRACE
+
       # Assignment
       ASSIGN
+      TYPE_ASSIGN
 
       # Keywords
       BEGIN
       END
+      IMPORT
+      IF
+      OBJECT
+      VAR
+      FOR
+      WHILE
+      FUNCTION
+      IN
+      PUB
+      PRIV
+      CONSTRUCTOR
+      
 
       # Identifiers and values
       IDENTIFER
       NUMBER
+      STRING
+      CHAR
 
       # Miscellaneous
       SMCOL
+      COLON
       DOT
       EOF
 
@@ -78,6 +98,12 @@ proc error*(lexer: Lexer) =
       current = lexer.currentChar
    raise newException(ValueError, "Invalid character: " & current & " at position " & $(position + 1))
 
+proc error(lexer: Lexer, complementaryMessage: string) =
+   var
+      position = lexer.position
+      current = lexer.currentChar
+   raise newException(ValueError, complementaryMessage & "\nInvalid character: " & current & "\nError happened at position " & $(position + 1))
+
 
 proc number(lexer: Lexer): Token =
    var output: string
@@ -127,6 +153,16 @@ proc identifyKeyword(lexer: Lexer): Token =
    let definedKeywords: Table[string, Token] = {
       "begin": initToken("begin", BEGIN),
       "end": initToken("end", END),
+      "pub": initToken("pub", PUB),
+      "priv": initToken("priv", PRIV),
+      "import": initToken("import", IMPORT),
+      "if": initToken("if", IF),
+      "object": initToken("object", OBJECT),
+      "var": initToken("var", VAR),
+      "for": initToken("for", FOR),
+      "while": initToken("while", WHILE),
+      "fn": initToken("fn", FUNCTION),
+      "in": initToken("in", IN)
    }.toTable()
 
    var value: string
@@ -141,12 +177,34 @@ proc identifyKeyword(lexer: Lexer): Token =
       return token
 
 
+proc matchString(lexer: Lexer): Token =
+   var value: string
+   let token = new(Token)
+   if lexer.currentChar == '\'':
+      lexer.advance()
+      if lexer.peek() != '\'':
+         lexer.error("Char can only be composed of 1 character")
+      value = $lexer.currentChar
+      token.tokType = CHAR
+      token.tokenValue = value
+   else:
+      lexer.advance()
+      while lexer.currentChar != '"' and lexer.currentChar != '\n':
+         lexer.advance()
+         value.add(lexer.currentChar)
+      token.tokenValue = value
+      token.tokType = STRING
+      lexer.advance()
+   return token
+
+
 proc getNextToken*(lexer: Lexer): Token =
    lexer.skipSpace()
    if lexer.position < lexer.input.len and lexer.currentChar != '\0':
       let symbols: Table[char, Token] = {
          ';': initToken(";", SMCOL),
-         '.': initToken(".", DOT)
+         '.': initToken(".", DOT),
+         ':': initToken(":", COLON)
       }.toTable()
 
       if lexer.currentChar.isDigit() or ((lexer.currentChar == '.') and lexer.peek().isDigit()):
@@ -156,6 +214,8 @@ proc getNextToken*(lexer: Lexer): Token =
       elif symbols.hasKey(lexer.currentChar):
          lexer.currentToken = symbols[lexer.currentChar]
          lexer.advance()
+      elif lexer.currentChar in ['\"', '\'']:
+         lexer.currentToken = lexer.matchString()
       else: 
          lexer.currentToken = lexer.guessOperator()
    else:

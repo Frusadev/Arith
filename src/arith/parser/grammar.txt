@@ -6,7 +6,7 @@ import_statement_list:
   | empty
 
 import_statement: 
-  IMPORT IDENTIFIER DOT IDENTIFIER
+  IMPORT IDENTIFIER DOT ... NEW_LINE
 
 compound_statement: 
   BEGIN statement_list END
@@ -24,6 +24,7 @@ statement:
   | var_declaration_statement 
   | for_loop_statement 
   | while_loop_statement 
+  | if_statement 
   | empty
 
 assignment_statement: 
@@ -95,6 +96,10 @@ for_loop_statement:
 
 while_loop_statement: 
   WHILE expr NEW_LINE statement_list END
+
+if_statement: 
+  IF expr THEN statement_list END_IF 
+  | IF expr THEN statement_list ELSE statement_list END_IF
 
 expr: 
   term ((PLUS | MINUS) term)*

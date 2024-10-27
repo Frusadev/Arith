@@ -6,7 +6,18 @@ type
       UNOP # Unary operator
       NUM
       COMPSTMT # Compound statement
-      ASSIGNSTMT # Assignment statement
+      ASSIGNSTMT # Assignment statement (value con only be a default type string | char | number | bool)
+      VARAINITSTMT
+      VARASSIGN
+      FUNCTIONSTMT
+      FUNCTIONCALL
+      PARAMVAR
+      PROPSTMT
+      METHODESTMT
+      IMPORTSTMT
+      IFSTMT
+      WHILESTMT
+      FORSTMT
       VAR
       VOIDSTMT
 
