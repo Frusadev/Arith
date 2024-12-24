@@ -121,8 +121,8 @@ proc eat*(parser: Parser, tokenType: TokenType) =
       parser.currentToken = parser.lexer.getNextToken()
 
 
-proc expr(parser: Parser): ASTNode
-proc compoundStmt(parser: Parser): CompoundStmtNode
+proc expr*(parser: Parser): ASTNode
+proc compoundStmt*(parser: Parser): CompoundStmtNode
 
 
 proc voidStatement(parser: Parser): VoidNode =
@@ -161,7 +161,7 @@ proc statementList(parser: Parser): seq[ASTNode] =
    return nodes
 
 
-proc compoundStmt(parser: Parser): CompoundStmtNode =
+proc compoundStmt*(parser: Parser): CompoundStmtNode =
    var node: CompoundStmtNode = initCompoundStmtNode(children= @[])
    parser.eat(BEGIN)
    node.children = parser.statementList()
@@ -213,7 +213,7 @@ proc term(parser: Parser): ASTNode =
    return node
 
 
-proc expr(parser: Parser): ASTNode =
+proc expr*(parser: Parser): ASTNode =
    var node = parser.term()
    while parser.currentToken.tokType in [PLUS, MINUS]:
       let token = parser.currentToken
