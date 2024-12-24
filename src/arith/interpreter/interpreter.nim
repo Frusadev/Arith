@@ -2,9 +2,10 @@ import strutils
 import arith/parser/parser
 import arith/lexer/lexer
 import arith/interpreter/runtime/scope
+from arith/interpreter/runtime/runtimeTypes import Scope
 
 type
-   Interpreter = ref object
+   Interpreter* = ref object
       currentScope: Scope
 
 
@@ -43,3 +44,5 @@ proc interpret*(interpreter: Interpreter, node: ASTNode): float =
             return +interpreter.interpret(node.expr)
          else:
             return -interpreter.interpret(node.expr)
+      else:
+         discard

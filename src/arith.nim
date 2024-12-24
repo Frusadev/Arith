@@ -1,4 +1,6 @@
 import arith/interpreter/interpreter
+import arith/lexer/lexer
+import arith/parser/parser
 
 when isMainModule:
    while true:
@@ -8,4 +10,5 @@ when isMainModule:
          let 
             lexer = initLexer(input)
             parser = initParser(lexer)
-         echo interpret(parser.expr())
+            interpreter: Interpreter = new (Interpreter)
+         echo interpreter.interpret(parser.expr())
