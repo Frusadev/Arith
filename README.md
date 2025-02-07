@@ -1,6 +1,6 @@
 # ARITH
 
-Arith is a simple interpreter for a pascal-like language. It's built in Nim for efficiency and simplicity.
+Arith is an interpreter for a simple programming language. It's built in Nim for efficiency and simplicity.
 
 ## How to install nim?
 
